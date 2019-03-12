@@ -41,6 +41,10 @@
 /* Platform layer includes. */
 #include "platform/iot_threads.h"
 
+//#include "aws_iot_atomic.h"
+#include "platform/atomic.h"
+
+
 /*-----------------------------------------------------------*/
 
 /*
@@ -309,6 +313,16 @@ static IotMutex_t _packetIdentifierMutex;
 
 static uint16_t _nextPacketIdentifier( void )
 {
+#if ( IOT_ATOMIC_OPERATION == 1 )
+
+    /* MQTT protocol specifies 2 bytes for Packet Identifier. 
+       For atomic operation, operating 16-bit on 32-bit MCU is no faster than operating 32-bit directly.
+       Here, using addition two bytes and casting, to achieve the same implementation as in another branch. */
+    static uint32_t nextPacketIdentifier = 1;
+    __asm__ __volatile__("atomic_add_start: ");
+    return ( uint16_t )Atomic_Add_i32( &nextPacketIdentifier, 2 );
+
+#else /* ( IOT_ATOMIC_OPERATION == 0 ) */
     static uint16_t nextPacketIdentifier = 1;
     uint16_t newPacketIdentifier = 0;
 
@@ -328,6 +342,8 @@ static uint16_t _nextPacketIdentifier( void )
     IotMutex_Unlock( &( _packetIdentifierMutex ) );
 
     return newPacketIdentifier;
+
+#endif /* IOT_ATOMIC_OPERATION */
 }
 
 /*-----------------------------------------------------------*/
