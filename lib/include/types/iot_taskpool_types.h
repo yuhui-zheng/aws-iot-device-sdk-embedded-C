@@ -178,7 +178,7 @@ typedef enum IotTaskPoolJobStatus
      * @brief Job is executing.
      *
      */
-    IOT_TASKPOOL_STATUS_EXECUTING,
+    IOT_TASKPOOL_STATUS_COMPLETED,
 
     /**
      * @brief Job has been canceled before executing.
@@ -351,6 +351,14 @@ typedef struct IotTaskPoolJob
 #define IOT_TASKPOOL_INFO_INITIALIZER           IOT_TASKPOOL_INFO_INITIALIZER_MEDIUM                                                                                  /**< @brief Initializer for a typical #IotTaskPoolInfo_t. */
 #define IOT_TASKPOOL_INITIALIZER                { 0 }                                                                                                                     /**< @brief Initializer for a #IotTaskPoolJob_t. */
 /* @[define_taskpool_initializers] */
+
+/**
+* @brief Schedules a job to execute immediately.
+*
+* @warning This flag may cause the task pool to create a worker to serve the job immediately, and
+* therefore using this flag may incur in additinal memory usage.
+*/
+#define IOT_TASKPOOL_JOB_HIGH_PRIORITY    0x00000001
 
 /**
  * @brief Allows the use of the handle to the system task pool.

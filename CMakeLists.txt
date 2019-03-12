@@ -30,7 +30,8 @@ add_definitions( -DIOT_ATOMIC_OPERATION=1 )
 
 # SDK include paths.
 include_directories( ${PROJECT_SOURCE_DIR}/lib/include
-                     ${PROJECT_SOURCE_DIR}/platform/include )
+                     ${PROJECT_SOURCE_DIR}/platform/include
+                     ${PROJECT_SOURCE_DIR}/third_party/include )
 
 # Demo include path.
 include_directories( ${PROJECT_SOURCE_DIR}/demos )
@@ -58,6 +59,9 @@ if( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" )
     add_subdirectory( platform/source/posix )
 endif()
 
+# Thrid party libraries (tinycbor).
+add_subdirectory( third_party/tinycbor )
+
 # Common libraries (linear containers, logging, etc.)
 add_subdirectory( lib/source/common )
 
@@ -66,6 +70,15 @@ add_subdirectory( lib/source/mqtt )
 
 # Shadow library.
 add_subdirectory( lib/source/shadow )
+
+# Metrics library.
+add_subdirectory( lib/source/metrics )
+
+# Serializer library.
+add_subdirectory( lib/source/serializer )
+
+# Defender library.
+add_subdirectory( lib/source/defender )
 
 # Demo executables.
 if( ${CMAKE_SYSTEM_NAME} STREQUAL "Linux" )
