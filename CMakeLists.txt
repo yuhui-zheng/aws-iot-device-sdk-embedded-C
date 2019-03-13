@@ -26,7 +26,7 @@ set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin )
 set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib )
 
 # Whether to use atomic or not.
-add_definitions( -DIOT_ATOMIC_OPERATION=1 )
+add_definitions( -DIOT_ATOMIC_OPERATION=0 )
 
 # SDK include paths.
 include_directories( ${PROJECT_SOURCE_DIR}/lib/include

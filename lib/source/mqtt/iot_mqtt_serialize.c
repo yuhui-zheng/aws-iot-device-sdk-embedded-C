@@ -319,7 +319,6 @@ static uint16_t _nextPacketIdentifier( void )
        For atomic operation, operating 16-bit on 32-bit MCU is no faster than operating 32-bit directly.
        Here, using addition two bytes and casting, to achieve the same implementation as in another branch. */
     static uint32_t nextPacketIdentifier = 1;
-    __asm__ __volatile__("atomic_add_start: ");
     return ( uint16_t )Atomic_Add_i32( &nextPacketIdentifier, 2 );
 
 #else /* ( IOT_ATOMIC_OPERATION == 0 ) */
